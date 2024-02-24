@@ -43,9 +43,9 @@ if __name__ == '__main__':
       capabilities["camera"]["image"] = args['image']
     if args['magic_link']:
         network_output = requests.get(args['magic_link']).json()
-        capabilities['feagi_url'] = network_output['feagi_url']
-        capabilities['feagi_api_port'] = network_output['feagi_api_port']
-        # capabilities['feagi_opu_port'] = network_output['feagi_opu_port']
+        feagi_settings['feagi_dns'] = network_output['feagi_url']
+        feagi_settings['feagi_api_port'] = network_output['feagi_api_port']
+        feagi_settings['feagi_opu_port'] = network_output['feagi_ws_port']
 
     if __name__ == '__main__':
         inital_feagi_setting = feagi_settings.copy()
@@ -55,7 +55,6 @@ if __name__ == '__main__':
         while True:
             try:
                 from feagi_agent_video_capture import controller as video_controller
-
                 feagi_auth_url = feagi_settings.pop('feagi_auth_url', None)
                 print("FEAGI AUTH URL ------- ", feagi_auth_url)
                 video_controller.main(feagi_auth_url, feagi_settings, agent_settings,
